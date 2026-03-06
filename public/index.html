@@ -1,35 +1,28 @@
-import express from 'express';
-import { createServer } from 'node:http';
-import { createBareServer } from '@tomphttp/bare-server-node';
-import path from 'node:path';
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Biology Lab Notes | Unit 4</title>
+    <script src="https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet@3.2.7/dist/uv.bundle.js"></script>
+    <script src="/settings.data.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #fafafa; text-align: center; padding-top: 100px; color: #333; }
+        .input-box { padding: 15px; width: 350px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
+        .btn { padding: 15px 30px; background: #27ae60; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Unit 4: Field Data Entry</h1>
+    <p>Please enter your Researcher ID to access the cloud lab sync.</p>
+    <input id="q" class="input-box" type="text" placeholder="Researcher ID...">
+    <button onclick="launch()" class="btn">Access Database</button>
 
-const app = express();
-// Stealth Path: Hides the proxy tunnel from firewall patterns
-const bare = createBareServer('/sync-engine/'); 
-const server = createServer();
-
-// CRITICAL: Bind to Railway's dynamic port and 0.0.0.0
-const PORT = Number(process.env.PORT) || 8080;
-
-app.use(express.static(path.join(process.cwd(), 'public')));
-
-server.on('request', (req, res) => {
-    if (bare.shouldRoute(req)) {
-        bare.routeRequest(req, res);
-    } else {
-        app(req, res);
+    <script>
+    function launch() {
+        const val = document.getElementById('q').value;
+        const url = val.includes('.') ? (val.startsWith('http') ? val : 'https://' + val) : 'https://www.google.com/search?q=' + encodeURIComponent(val);
+        // This launches using your stealth prefix from settings.data.js
+        window.location.href = '/edu/notes/v1/' + __uv$config.encodeUrl(url);
     }
-});
-
-server.on('upgrade', (req, socket, head) => {
-    if (bare.shouldRoute(req)) {
-        bare.routeUpgrade(req, socket, head);
-    } else {
-        socket.end();
-    }
-});
-
-// Binding to '0.0.0.0' allows the Railway load balancer to find your app
-server.listen(PORT, '0.0.0.0', () => {
-    console.log(`Research Portal Active: http://0.0.0.0:${PORT}`);
-});
+    </script>
+</body>
+</html>
