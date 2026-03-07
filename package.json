@@ -1,8 +1,7 @@
 {
-  "name": "biology-lab-sync-v4",
-  "version": "4.0.0",
+  "name": "bio-research-sync",
+  "version": "1.0.0",
   "type": "module",
-  "description": "Educational data syncing utility for student lab notes",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
