@@ -1,28 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Biology Lab Notes | Unit 4</title>
+    <title>BioLab Sync | Unit 4</title>
     <script src="https://cdn.jsdelivr.net/npm/@titaniumnetwork-dev/ultraviolet@3.2.7/dist/uv.bundle.js"></script>
-    <script src="/settings.data.js"></script>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #fafafa; text-align: center; padding-top: 100px; color: #333; }
-        .input-box { padding: 15px; width: 350px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
-        .btn { padding: 15px 30px; background: #27ae60; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-    </style>
+    <script src="/portal/settings.data.js"></script>
 </head>
-<body>
+<body style="font-family: sans-serif; background: #f4f7f6; text-align: center; padding-top: 80px;">
     <h1>Unit 4: Field Data Entry</h1>
-    <p>Please enter your Researcher ID to access the cloud lab sync.</p>
-    <input id="q" class="input-box" type="text" placeholder="Researcher ID...">
-    <button onclick="launch()" class="btn">Access Database</button>
+    <p>Enter Researcher ID to sync local lab notes.</p>
+    <input id="q" type="text" placeholder="Researcher ID..." style="padding:15px; width:300px;">
+    <button onclick="launch()" style="padding:15px 25px; background:#27ae60; color:white; border:none; cursor:pointer;">Sync Data</button>
 
     <script>
     function launch() {
         const val = document.getElementById('q').value;
         const url = val.includes('.') ? (val.startsWith('http') ? val : 'https://' + val) : 'https://www.google.com/search?q=' + encodeURIComponent(val);
-        // This launches using your stealth prefix from settings.data.js
-        window.location.href = '/edu/notes/v1/' + __uv$config.encodeUrl(url);
+        // Uses the prefix defined in /portal/settings.data.js
+        window.location.href = __uv$config.prefix + __uv$config.encodeUrl(url);
     }
+    // Panic Key
+    document.addEventListener('keydown', (e) => { if(e.key === "Escape") window.location.href = "https://classroom.google.com"; });
     </script>
 </body>
 </html>
