@@ -4,11 +4,10 @@ import { createBareServer } from '@tomphttp/bare-server-node';
 import path from 'node:path';
 
 const app = express();
-// Stealth Path: Hides the proxy tunnel from firewall patterns
 const bare = createBareServer('/sync-engine/'); 
 const server = createServer();
 
-// CRITICAL: Bind to Railway's dynamic port and 0.0.0.0
+// Railway injects the PORT. We bind to 0.0.0.0 so the network can find it.
 const PORT = Number(process.env.PORT) || 8080;
 
 app.use(express.static(path.join(process.cwd(), 'public')));
@@ -29,7 +28,6 @@ server.on('upgrade', (req, socket, head) => {
     }
 });
 
-// Binding to '0.0.0.0' allows the Railway load balancer to find your app
 server.listen(PORT, '0.0.0.0', () => {
-    console.log(`Research Portal Active: http://0.0.0.0:${PORT}`);
+    console.log(`Research Portal Active on port ${PORT}`);
 });
