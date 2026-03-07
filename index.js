@@ -7,9 +7,9 @@ const app = express();
 const bare = createBareServer('/sync-engine/'); 
 const server = createServer();
 
-// Railway injects the PORT. We bind to 0.0.0.0 so the network can find it.
 const PORT = Number(process.env.PORT) || 8080;
 
+// This tells the server to look inside the public folder for your portal
 app.use(express.static(path.join(process.cwd(), 'public')));
 
 server.on('request', (req, res) => {
@@ -29,5 +29,5 @@ server.on('upgrade', (req, socket, head) => {
 });
 
 server.listen(PORT, '0.0.0.0', () => {
-    console.log(`Research Portal Active on port ${PORT}`);
+    console.log(`System Online on port ${PORT}`);
 });
